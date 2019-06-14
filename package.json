@@ -1,0 +1,25 @@
+{
+    "name": "dashboard",
+    "version": "1.0.0",
+    "description": "",
+    "author": "henrique silverio",
+    "license": "ISC",
+    "devDependencies": {
+        "@fortawesome/fontawesome-free": "^5.9.0",
+        "bootstrap": "^4.3.1",
+        "datatables.net": "^1.10.19",
+        "datatables.net-bs4": "^1.10.19",
+        "gulp": "^4.0.2",
+        "gulp-clean": "^0.4.0",
+        "gulp-clean-css": "^4.2.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-connect": "^5.7.0",
+        "gulp-inject": "^5.0.2",
+        "gulp-open": "^3.0.1",
+        "gulp-rev": "^9.0.0",
+        "gulp-sass": "^4.0.2",
+        "gulp-uglify": "^3.0.2",
+        "jquery": "^3.4.1",
+        "serve-static": "^1.14.1"
+    }
+}
