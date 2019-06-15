@@ -7031,8 +7031,11 @@ table.dataTable thead th {
   background-image: none !important; }
 
 table.dataTable thead th.sorting:after,
+table.dataTable thead th.sorting:before,
 table.dataTable thead th.sorting_asc:after,
-table.dataTable thead th.sorting_desc:after {
+table.dataTable thead th.sorting_desc:after,
+table.dataTable thead th.sorting_asc:before,
+table.dataTable thead th.sorting_desc:before {
   position: absolute;
   top: 12px;
   color: #655f5f;
@@ -7047,7 +7050,14 @@ table.dataTable thead th.sorting:after {
   font-weight: 900; }
 
 table.dataTable thead th.sorting_asc:after {
-  content: "\f0de"; }
+  content: "\f0de";
+  opacity: 1; }
 
 table.dataTable thead th.sorting_desc:after {
-  content: "\f0dd"; }
+  content: "\f0dd";
+  opacity: 1; }
+
+table.dataTable thead th.sorting:before,
+table.dataTable thead th.sorting_asc:before,
+table.dataTable thead th.sorting_desc:before {
+  content: ""; }
