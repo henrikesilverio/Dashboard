@@ -2,7 +2,7 @@ var dataTableSettings = {
     "data": [],
     "dom": "<'row'<'col-sm-12'tr>>" +
         "<'row'<'col-sm-12 col-md-12'<'d-flex justify-content-center'p>>>",
-    "pageLength": 8,
+    "pageLength": 11,
     "language": {
         "zeroRecords": "Não há registrados",
         "info": "_START_ a _END_ em _TOTAL_ Log(s)",
@@ -14,15 +14,21 @@ var dataTableSettings = {
             "next": "Próximo"
         }
     },
-    "columns": []
+    "columns": [],
+    "preDrawCallback": function() {
+        var height = $(window).height() - 175;
+        var api = this.api();
+        api.page.len(Math.floor(height / 49));
+        console.log(height);
+    }
 };
 
 var table = {};
 
 $.ajax({
     url: 'https://dashboard-722d3.firebaseio.com/.json',
-    success: function (data) {
-        data.columns.forEach(function (element) {
+    success: function(data) {
+        data.columns.forEach(function(element) {
             if (element.icon) {
                 dataTableSettings.columns.push({
                     "data": element.property,
@@ -72,22 +78,22 @@ function buildIcon(data) {
     }
 }
 
-$('#search').keyup(function () {
+$('#search').keyup(function() {
     table.search($(this).val()).draw();
 });
 
 var currentInt = 0;
 var interval = {};
 var $clock = $("#clock");
-var formatClock = function (event) {
+var formatClock = function(event) {
     $clock.html(event.strftime('A tela será atualizada em <span>%M minuto(s) %S segundo(s)</span>'));
 };
 
-$("#automatic-rotation").on("click", function () {
+$("#automatic-rotation").on("click", function() {
     var pageInfo = table.page.info();
 
     if (this.checked) {
-        interval = setInterval(function () {
+        interval = setInterval(function() {
             table.page(currentInt).draw('page');
             $clock.countdown(new Date().getTime() + 3000, formatClock);
             currentInt++;
