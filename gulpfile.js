@@ -38,13 +38,10 @@ gulp.task('bundle-main-css', function() {
 gulp.task('bundle-vendor-js', function() {
     return gulp.src([
             'node_modules/jquery/dist/jquery.js',
-            'node_modules/jquery-validation/dist/jquery.validate.js',
             'node_modules/bootstrap/dist/js/bootstrap.bundle.js',
-            'node_modules/tus-js-client/dist/tus.js',
-            'node_modules/@aspnet/signalr/dist/browser/signalr.js',
             'node_modules/datatables.net/js/jquery.dataTables.js',
             'node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js',
-            'node_modules/datatables.net-scroller/js/dataTables.scroller.js'
+            'node_modules/jquery-countdown/dist/jquery.countdown.js'
         ])
         .pipe(concat('vendor.js'))
         .pipe(rev())

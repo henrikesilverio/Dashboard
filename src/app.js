@@ -14,19 +14,33 @@ var dataTableSettings = {
             "next": "Próximo"
         }
     },
-    "columns": [
-        { "data": "company", "width": "30%" },
-        { "data": "substation", "width": "25%" },
-        { "data": "active", "width": "10%", "class": "text-center" },
-        { "data": "status", "width": "5%", "class": "text-center", "render": buildBadge },
-        { "data": "temp", "width": "5%", "class": "text-center", "render": buildIcon },
-        { "data": "gas", "width": "5%", "class": "text-center", "render": buildIcon },
-        { "data": "bush", "width": "5%", "class": "text-center", "render": buildIcon },
-        { "data": "signals", "width": "5%", "class": "text-center", "render": buildIcon },
-        { "data": "oltc", "width": "5%", "class": "text-center", "render": buildIcon },
-        { "data": "membrane", "width": "5%", "class": "text-center", "render": buildIcon }
-    ]
+    "columns": []
 };
+
+var table = {};
+
+$.ajax({
+    url: 'https://dashboard-722d3.firebaseio.com/.json',
+    success: function (data) {
+        data.columns.forEach(function (element) {
+            if (element.icon) {
+                dataTableSettings.columns.push({
+                    "data": element.property,
+                    "title": element.value,
+                    "class": "text-center",
+                    "render": buildIcon
+                });
+            } else {
+                dataTableSettings.columns.push({
+                    "data": element.property,
+                    "title": element.value
+                });
+            }
+        });
+        dataTableSettings.data = data.lines;
+        table = $("#dashboard").DataTable(dataTableSettings);
+    }
+});
 
 function buildBadge(data) {
     switch (data) {
@@ -41,7 +55,6 @@ function buildBadge(data) {
         case 4:
             return "<span class='badge badge-danger'>Emergência</span>";
     }
-
 }
 
 function buildIcon(data) {
@@ -59,52 +72,29 @@ function buildIcon(data) {
     }
 }
 
-var table = $("#dashboard").DataTable(dataTableSettings);
-
-//Sem definição = 0
-//Azul = 1,
-//Verde = 2,
-//Amarelo = 3,
-//Vermelho = 4
-for (var i = 0; i < 100; i++) {
-    table.rows.add([{
-        "company": "CPFL Renováveis " + i,
-        "substation": "SUBES " + i,
-        "active": "TRE " + i,
-        "status": (i % 5),
-        "temp": (i % 5),
-        "gas": i % 5,
-        "bush": i % 5,
-        "signals": i % 5,
-        "oltc": i % 5,
-        "membrane": i % 5
-    }]);
-}
-
-table.draw();
-
 $('#search').keyup(function () {
     table.search($(this).val()).draw();
 });
 
-var pageInfo = table.page.info();
 var currentInt = 0;
 var interval = {};
 var $clock = $("#clock");
 var formatClock = function (event) {
-    $clock.html(event.strftime('A tela será atualizada em <span>%H hora(s) %M minuto(s) %S segundo(s)</span>'));
+    $clock.html(event.strftime('A tela será atualizada em <span>%M minuto(s) %S segundo(s)</span>'));
 };
 
 $("#automatic-rotation").on("click", function () {
+    var pageInfo = table.page.info();
+
     if (this.checked) {
         interval = setInterval(function () {
             table.page(currentInt).draw('page');
-            $clock.countdown(new Date().getTime() + 2000, formatClock);
+            $clock.countdown(new Date().getTime() + 3000, formatClock);
             currentInt++;
             if (currentInt === pageInfo.pages) {
                 currentInt = 0;
             }
-        }, 2200);
+        }, 3300);
     } else {
         clearInterval(interval);
         $clock.countdown('stop').html("");
