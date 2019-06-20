@@ -7026,6 +7026,9 @@ a.text-dark:hover, a.text-dark:focus {
 /*!
  * modules
  */
+body {
+  font-size: 1.2vw; }
+
 table.dataTable thead th {
   position: relative;
   background-image: none !important; }

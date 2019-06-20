@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard</title>
 
@@ -19,8 +19,13 @@
 
 <body>
     <div class="container-fluid">
-        <div class="row mb-3 mt-3">
-            <div class="col-9">
+        <div class="row mt-1 mb-1">
+            <div class="col-12">
+                <div class="d-flex justify-content-end" id="clock"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -30,15 +35,6 @@
                     <input type="text" class="form-control" placeholder="Buscar" id="search">
                 </div>
             </div>
-            <div class="col-3">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="automatic-rotation">
-                    <label class="custom-control-label" for="automatic-rotation">Rotação Automática</label>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12" id="clock"></div>
         </div>
         <div class="row">
             <section class="col-12">
@@ -46,6 +42,14 @@
                     <thead class="thead-light"></thead>
                 </table>
             </section>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="custom-control custom-checkbox d-flex justify-content-end">
+                    <input type="checkbox" class="custom-control-input" id="automatic-rotation">
+                    <label class="custom-control-label" for="automatic-rotation">Rotação Automática</label>
+                </div>
+            </div>
         </div>
     </div>
 

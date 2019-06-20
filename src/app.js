@@ -2,7 +2,7 @@ var dataTableSettings = {
     "data": [],
     "dom": "<'row'<'col-sm-12'tr>>" +
         "<'row'<'col-sm-12 col-md-12'<'d-flex justify-content-center'p>>>",
-    "pageLength": 11,
+    "pageLength": 10,
     "language": {
         "zeroRecords": "Não há registrados",
         "info": "_START_ a _END_ em _TOTAL_ Log(s)",
@@ -10,17 +10,11 @@ var dataTableSettings = {
         "infoFiltered": "(filtrado do total de _MAX_ registros)",
         "search": "Filtrar resultado",
         "paginate": {
-            "previous": "Anterior",
-            "next": "Próximo"
+            "previous": "",
+            "next": ""
         }
     },
-    "columns": [],
-    "preDrawCallback": function() {
-        var height = $(window).height() - 175;
-        var api = this.api();
-        api.page.len(Math.floor(height / 49));
-        console.log(height);
-    }
+    "columns": []
 };
 
 var table = {};
@@ -82,11 +76,11 @@ $('#search').keyup(function() {
     table.search($(this).val()).draw();
 });
 
-var currentInt = 0;
+var currentInt = 1;
 var interval = {};
 var $clock = $("#clock");
 var formatClock = function(event) {
-    $clock.html(event.strftime('A tela será atualizada em <span>%M minuto(s) %S segundo(s)</span>'));
+    $clock.html(event.strftime('<span>A tela será atualizada em %M minuto(s) %S segundo(s)</span>'));
 };
 
 $("#automatic-rotation").on("click", function() {
@@ -101,6 +95,7 @@ $("#automatic-rotation").on("click", function() {
                 currentInt = 0;
             }
         }, 3300);
+        $clock.countdown(new Date().getTime() + 3000, formatClock);
     } else {
         clearInterval(interval);
         $clock.countdown('stop').html("");
