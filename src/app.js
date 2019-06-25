@@ -19,15 +19,44 @@ var dataTableSettings = {
 
 var table = {};
 
+$.extend(jQuery.fn.dataTableExt.oSort, {
+    "icon-pre": function (a) {
+        if (a.indexOf("muted") >= 0) {
+            return 0;
+        }
+        if (a.indexOf("primary") >= 0) {
+            return 1;
+        }
+        if (a.indexOf("success") >= 0) {
+            return 2;
+        }
+        if (a.indexOf("warning") >= 0) {
+            return 3;
+        }
+        if (a.indexOf("danger") >= 0) {
+            return 4;
+        }
+    },
+
+    "icon-asc": function (a, b) {
+        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+    },
+
+    "icon-desc": function (a, b) {
+        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+    }
+});
+
 $.ajax({
     url: 'https://dashboard-722d3.firebaseio.com/.json',
-    success: function(data) {
-        data.columns.forEach(function(element) {
+    success: function (data) {
+        data.columns.forEach(function (element) {
             if (element.icon) {
                 dataTableSettings.columns.push({
                     "data": element.property,
                     "title": element.value,
                     "class": "text-center",
+                    "type": "icon",
                     "render": buildIcon
                 });
             } else {
@@ -72,22 +101,23 @@ function buildIcon(data) {
     }
 }
 
-$('#search').keyup(function() {
+$('#search').keyup(function () {
     table.search($(this).val()).draw();
 });
 
 var currentInt = 1;
 var interval = {};
 var $clock = $("#clock");
-var formatClock = function(event) {
+var formatClock = function (event) {
     $clock.html(event.strftime('<span>A tela será atualizada em %M minuto(s) %S segundo(s)</span>'));
 };
+$clock.countdown(new Date().getTime(), formatClock);
 
-$("#automatic-rotation").on("click", function() {
+$("#automatic-rotation").on("click", function () {
     var pageInfo = table.page.info();
 
     if (this.checked) {
-        interval = setInterval(function() {
+        interval = setInterval(function () {
             table.page(currentInt).draw('page');
             $clock.countdown(new Date().getTime() + 3000, formatClock);
             currentInt++;
@@ -98,6 +128,6 @@ $("#automatic-rotation").on("click", function() {
         $clock.countdown(new Date().getTime() + 3000, formatClock);
     } else {
         clearInterval(interval);
-        $clock.countdown('stop').html("");
+        $clock.countdown(new Date().getTime(), formatClock);
     }
 });
