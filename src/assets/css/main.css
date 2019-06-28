@@ -7066,9 +7066,10 @@ table.dataTable thead th.sorting_desc:before {
   content: ""; }
 
 .treetech-logo {
-  width: 62px;
-  height: 62px; }
+  width: 20%; }
 
 .cpfl-logo {
-  width: 62px;
-  height: 62px; }
+  width: 30%; }
+
+.font-text {
+  font-size: 2.3vw; }

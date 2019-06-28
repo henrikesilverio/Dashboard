@@ -69,8 +69,13 @@ gulp.task('styles-watch', function() {
     return gulp.watch('src/assets/css/*.scss', gulp.series('styles'));
 });
 
-gulp.task('copy', function() {
+gulp.task('copy-font', function() {
     return gulp.src('node_modules/@fortawesome/fontawesome-free/webfonts/**', { base: 'node_modules/@fortawesome/fontawesome-free' })
+        .pipe(gulp.dest('deploy'));
+});
+
+gulp.task('copy-image', function() {
+    return gulp.src('src/assets/img/**', { base: 'src/assets' })
         .pipe(gulp.dest('deploy'));
 });
 
@@ -90,7 +95,8 @@ gulp.task('deploy', gulp.series(
     'bundle-vendor-css',
     'bundle-vendor-js',
     'bundle-main-js',
-    'copy',
+    'copy-font',
+    'copy-image',
     'html-inject'
 ));
 

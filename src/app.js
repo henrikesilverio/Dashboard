@@ -3,6 +3,7 @@ var dataTableSettings = {
     "dom": "<'row'<'col-sm-12'tr>>" +
         "<'row'<'col-sm-12 col-md-12'<'d-flex justify-content-center'p>>>",
     "pageLength": 10,
+    "ordering": false,
     "language": {
         "zeroRecords": "Não há registrados",
         "info": "_START_ a _END_ em _TOTAL_ Log(s)",
@@ -19,51 +20,33 @@ var dataTableSettings = {
 
 var table = {};
 
-$.extend(jQuery.fn.dataTableExt.oSort, {
-    "icon-pre": function (a) {
-        if (a.indexOf("muted") >= 0) {
-            return 0;
-        }
-        if (a.indexOf("primary") >= 0) {
-            return 1;
-        }
-        if (a.indexOf("success") >= 0) {
-            return 2;
-        }
-        if (a.indexOf("warning") >= 0) {
-            return 3;
-        }
-        if (a.indexOf("danger") >= 0) {
-            return 4;
-        }
-    },
-
-    "icon-asc": function (a, b) {
-        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
-    },
-
-    "icon-desc": function (a, b) {
-        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
-    }
-});
-
 $.ajax({
     url: 'https://dashboard-722d3.firebaseio.com/.json',
     success: function (data) {
         data.columns.forEach(function (element) {
-            if (element.icon) {
-                dataTableSettings.columns.push({
-                    "data": element.property,
-                    "title": element.value,
-                    "class": "text-center",
-                    "type": "icon",
-                    "render": buildIcon
-                });
-            } else {
-                dataTableSettings.columns.push({
-                    "data": element.property,
-                    "title": element.value
-                });
+            switch (element.displayType) {
+                case 0:
+                    dataTableSettings.columns.push({
+                        "data": element.property,
+                        "title": element.value
+                    });
+                    break;
+                case 1:
+                    dataTableSettings.columns.push({
+                        "data": element.property,
+                        "title": element.value,
+                        "class": "text-center",
+                        "render": buildIcon
+                    });
+                    break;
+                case 2:
+                    dataTableSettings.columns.push({
+                        "data": element.property,
+                        "title": element.value,
+                        "class": "text-center",
+                        "render": buildBadge
+                    });
+                    break;
             }
         });
         dataTableSettings.data = data.lines;
@@ -74,15 +57,15 @@ $.ajax({
 function buildBadge(data) {
     switch (data) {
         case 0:
-            return "<span class='badge badge-secondary'>Não definido</span>";
+            return "<span class='font-weight-bold text-secondary'>Não definido</span>";
         case 1:
-            return "<span class='badge badge-primary'>Ordinário</span>";
+            return "<span class='font-weight-bold text-primary'>Ordinário</span>";
         case 2:
-            return "<span class='badge badge-success'>Normal</span>";
+            return "<span class='font-weight-bold text-success'>Normal</span>";
         case 3:
-            return "<span class='badge badge-warning'>Urgente</span>";
+            return "<span class='font-weight-bold text-warning'>Urgente</span>";
         case 4:
-            return "<span class='badge badge-danger'>Emergência</span>";
+            return "<span class='font-weight-bold text-danger'>Emergência</span>";
     }
 }
 
@@ -108,6 +91,7 @@ $('#search').keyup(function () {
 var currentInt = 1;
 var interval = {};
 var $clock = $("#clock");
+var timer = 3000;
 var formatClock = function (event) {
     $clock.html(event.strftime('<span>A tela será atualizada em %M minuto(s) %S segundo(s)</span>'));
 };
@@ -119,13 +103,13 @@ $("#automatic-rotation").on("click", function () {
     if (this.checked) {
         interval = setInterval(function () {
             table.page(currentInt).draw('page');
-            $clock.countdown(new Date().getTime() + 3000, formatClock);
+            $clock.countdown(new Date().getTime() + timer, formatClock);
             currentInt++;
             if (currentInt === pageInfo.pages) {
                 currentInt = 0;
             }
-        }, 3300);
-        $clock.countdown(new Date().getTime() + 3000, formatClock);
+        }, (timer + 300));
+        $clock.countdown(new Date().getTime() + timer, formatClock);
     } else {
         clearInterval(interval);
         $clock.countdown(new Date().getTime(), formatClock);
