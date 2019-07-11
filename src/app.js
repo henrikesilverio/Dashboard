@@ -15,7 +15,10 @@ var dataTableSettings = {
             "next": ""
         }
     },
-    "columns": []
+    "columns": [],
+    "drawCallback": function () {
+        $("[data-toggle='tooltip']").tooltip();
+    }
 };
 
 var table = {};
@@ -69,18 +72,27 @@ function buildBadge(data) {
     }
 }
 
+function getHtmlIcon(classIcon, title) {
+    return $("<span>").attr({
+        "class": "fa fa-lg " + classIcon,
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        "title": title
+    })[0].outerHTML;
+}
+
 function buildIcon(data) {
-    switch (data) {
+    switch (data.value) {
         case 0:
-            return "<span class='fa fa-lg fa-minus text-muted'></span>";
+            return getHtmlIcon("fa-minus text-muted", data.lastAlarm);
         case 1:
-            return "<span class='fa fa-lg fa-circle text-primary'></span>";
+            return getHtmlIcon("fa-circle text-primary", data.lastAlarm);
         case 2:
-            return "<span class='fa fa-lg fa-circle text-success'></span>";
+            return getHtmlIcon("fa-circle text-success", data.lastAlarm);
         case 3:
-            return "<span class='fa fa-lg fa-circle text-warning'></span>";
+            return getHtmlIcon("fa-circle text-warning", data.lastAlarm);
         case 4:
-            return "<span class='fa fa-lg fa-circle text-danger'></span>";
+            return getHtmlIcon("fa-circle text-danger", data.lastAlarm);
     }
 }
 
