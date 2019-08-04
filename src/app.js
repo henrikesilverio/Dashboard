@@ -57,6 +57,17 @@ $.ajax({
     }
 });
 
+function refreshData() {
+    $.ajax({
+        url: 'https://dashboard-722d3.firebaseio.com/.json',
+        success: function (data) {
+            table.clear();
+            table.rows.add(data.lines);
+            table.draw();
+        }
+    });
+}
+
 function buildBadge(data) {
     switch (data) {
         case 0:
@@ -101,29 +112,30 @@ $('#search').keyup(function () {
 });
 
 var currentInt = 1;
-var interval = {};
-var $clock = $("#clock");
+var intervalAutomaticRotation = {};
+var intervalRefreshTime = {};
 var timer = 3000;
-var formatClock = function (event) {
-    $clock.html(event.strftime('<span>A tela será atualizada em %M minuto(s) %S segundo(s)</span>'));
-};
-$clock.countdown(new Date().getTime(), formatClock);
 
 $("#automatic-rotation").on("click", function () {
     var pageInfo = table.page.info();
 
     if (this.checked) {
-        interval = setInterval(function () {
+        intervalAutomaticRotation = setInterval(function () {
             table.page(currentInt).draw('page');
-            $clock.countdown(new Date().getTime() + timer, formatClock);
             currentInt++;
             if (currentInt === pageInfo.pages) {
                 currentInt = 0;
             }
         }, (timer + 300));
-        $clock.countdown(new Date().getTime() + timer, formatClock);
     } else {
-        clearInterval(interval);
-        $clock.countdown(new Date().getTime(), formatClock);
+        clearInterval(intervalAutomaticRotationk);
+    }
+});
+
+$("#refresh-time").on("click", function () {
+    if (this.checked) {
+        intervalRefreshTime = setInterval(refreshData, ($("#time-in-millisec").val()));
+    } else {
+        clearInterval(intervalRefreshTime);
     }
 });

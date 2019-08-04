@@ -40,8 +40,7 @@ gulp.task('bundle-vendor-js', function() {
             'node_modules/jquery/dist/jquery.js',
             'node_modules/bootstrap/dist/js/bootstrap.bundle.js',
             'node_modules/datatables.net/js/jquery.dataTables.js',
-            'node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js',
-            'node_modules/jquery-countdown/dist/jquery.countdown.js'
+            'node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js'
         ])
         .pipe(concat('vendor.js'))
         .pipe(rev())

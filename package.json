@@ -20,7 +20,6 @@
         "gulp-sass": "^4.0.2",
         "gulp-uglify": "^3.0.2",
         "jquery": "^3.4.1",
-        "jquery-countdown": "^2.2.0",
         "serve-static": "^1.14.1"
     }
 }

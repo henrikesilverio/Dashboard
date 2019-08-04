@@ -28,8 +28,23 @@
                 <span class="fa fa-2x fa-desktop mr-2"></span>
                 <span class="font-text text-success">Condição dos Ativos</span>
             </div>
-            <div class="col-4 text-right">
-                <div class="d-flex justify-content-end" id="clock"></div>
+            <div class="col-4">
+                <div class="col-12">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="refresh-time">
+                        <label class="custom-control-label" for="refresh-time">Habilitar atualização automática</label>
+                    </div>
+                </div>
+                <div class="col-12 text-right form-inline">
+                    <label class="my-1 mr-sm-2">Os dados serão atualizados em</label>
+                    <select class="form-control my-1 mr-sm-2" id="time-in-millisec">
+                        <option value="10000">10</option>
+                        <option value="15000">15</option>
+                        <option value="20000">20</option>
+                        <option value="30000">30</option>
+                    </select>
+                    <label class="my-1 mr-sm-2">segundo(s)</label>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -66,7 +81,6 @@
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <script src="node_modules/datatables.net/js/jquery.dataTables.js"></script>
     <script src="node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
-    <script src="node_modules/jquery-countdown/dist/jquery.countdown.js"></script>
     <!-- endinject -->
 
     <!-- main:js -->
